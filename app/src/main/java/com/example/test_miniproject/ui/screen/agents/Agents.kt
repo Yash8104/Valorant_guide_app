@@ -42,102 +42,94 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.ImageLoader
+import coil3.compose.AsyncImage
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.crossfade
 import com.example.test_miniproject.R
 import com.example.test_miniproject.ui.screen.AgentDetails
 import com.example.test_miniproject.ui.screen.HomePage
 import com.example.test_miniproject.ui.screen.HomepageContent
+import com.example.test_miniproject.ui.screen.Loading
 import com.example.test_miniproject.ui.theme.BackgroundMera
 import com.example.test_miniproject.ui.theme.BorderColorMera
+import com.example.test_miniproject.ui.theme.TrackColorMera
 import com.example.test_miniproject.ui.theme.fontFamily
 import com.example.test_miniproject.viewmodel.AgentsViewModel
 
 
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AgentsListWrapper(navController: NavController){
 
     val agentsViewModel: AgentsViewModel = hiltViewModel()
 
-    if(!agentsViewModel.isLoading.value){
 
-
-
-        AgentsList(agentsViewModel = agentsViewModel, navController)
-
-    }else{
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-
-            CircularProgressIndicator(
-                color = Color.Cyan,
-                strokeWidth = 4.dp,
-                trackColor = Color.hsl(180F,1F,0.94F),
-
-                )
-
-        }
-
-    }
-
-}
-
-
-
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
-@Composable
-fun AgentsList(agentsViewModel: AgentsViewModel , navController: NavController){
-
-    val imageloader = ImageLoader.Builder(LocalContext.current).crossfade(true).build()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
 
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .background(BackgroundMera)
-        ,
+            .background(BackgroundMera),
         containerColor = BackgroundMera,
-
-
         topBar = {
             CenterAlignedTopAppBar(
-
                 title = {
                     Text(text = "AGENTS",
                         fontFamily = fontFamily,
                         color = Color.White
                     )
                 },
-
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.navigate(HomePage)
                     }) {
 //                        hsla(355, 100%, 64%, 1)
-                        Icon(painter = painterResource(id = R.drawable.vector_2), contentDescription = null, tint = Color.hsl(355F,1F,0.64F))
-                        
+                        Icon(painter = painterResource(id = R.drawable.vector_2), contentDescription = null, tint = BorderColorMera)
+
                     }
                 },
-
                 scrollBehavior = scrollBehavior,
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = BackgroundMera,
                     scrolledContainerColor = BackgroundMera
                 )
-
-
             )
         }
-    ) {
+    ){
+
             values: PaddingValues ->
+
+        if(!agentsViewModel.isLoading.value){
+
+            AgentsList(values,agentsViewModel = agentsViewModel, navController)
+
+        }else{
+
+            Loading()
+        }
+
+
+
+    }
+
+
+
+}
+
+
+
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun AgentsList(values: PaddingValues, agentsViewModel: AgentsViewModel , navController: NavController){
+
+//    val imageloader = ImageLoader.Builder(LocalContext.current).crossfade(true).build()
+
+
 
         FlowRow(
             maxItemsInEachRow = 2,
@@ -154,11 +146,10 @@ fun AgentsList(agentsViewModel: AgentsViewModel , navController: NavController){
                 AgentsCard(
                     text = i.displayName,
                     image = i.fullPortrait,
-                    imageloader = imageloader,
                     onClick = {
                         navController.navigate(AgentDetails(i.uuid))
                     }
-                    )
+                )
 
             }
 
@@ -167,13 +158,13 @@ fun AgentsList(agentsViewModel: AgentsViewModel , navController: NavController){
         }
 
 
-    }
-
 }
 
 
+
+
 @Composable
-fun AgentsCard(text: String, image: String, imageloader: ImageLoader, onClick: ()-> Unit){
+fun AgentsCard(text: String, image: String, onClick: ()-> Unit){
 
 
     Column(
@@ -198,17 +189,14 @@ fun AgentsCard(text: String, image: String, imageloader: ImageLoader, onClick: (
             modifier = Modifier.padding(top = 16.dp)
         )
 
-        Image(
-            painter = rememberAsyncImagePainter(
-                model = image,
-                imageLoader = imageloader
-            ) ,
+
+        AsyncImage(
+            model = image,
             contentDescription = null,
             modifier = Modifier
                 .width(150.dp)
                 .height(250.dp),
             contentScale = ContentScale.Crop
-
         )
 
 
