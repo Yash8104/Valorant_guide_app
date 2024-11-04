@@ -27,5 +27,23 @@ class AgentsRepository @Inject constructor(
         }
     }
 
+    suspend fun getAgent(uuid: String): Data?{
+        return try {
+
+            Log.e("repo","getAgent() function block")
+            val response = apiService.getAgent(uuid)
+            Log.e("response",response.status.toString())
+            if (response.status == 200){
+                response.data
+            }else{
+                null
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+            null
+        }
+    }
+
 
 }

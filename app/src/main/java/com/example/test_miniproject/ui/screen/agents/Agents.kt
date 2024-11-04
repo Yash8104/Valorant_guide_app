@@ -3,6 +3,7 @@ package com.example.test_miniproject.ui.screen.agents
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -38,11 +39,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.ImageLoader
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.crossfade
 import com.example.test_miniproject.R
+import com.example.test_miniproject.ui.screen.AgentDetails
 import com.example.test_miniproject.ui.screen.HomePage
 import com.example.test_miniproject.ui.screen.HomepageContent
 import com.example.test_miniproject.ui.theme.BackgroundMera
@@ -54,7 +57,9 @@ import com.example.test_miniproject.viewmodel.AgentsViewModel
 
 
 @Composable
-fun AgentsListWrapper(agentsViewModel: AgentsViewModel, navController: NavController){
+fun AgentsListWrapper(navController: NavController){
+
+    val agentsViewModel: AgentsViewModel = hiltViewModel()
 
     if(!agentsViewModel.isLoading.value){
 
@@ -146,7 +151,14 @@ fun AgentsList(agentsViewModel: AgentsViewModel , navController: NavController){
 
             for (i in agentsViewModel.agents.value){
 
-                AgentsCard(text = i.displayName, image = i.fullPortrait, imageloader = imageloader)
+                AgentsCard(
+                    text = i.displayName,
+                    image = i.fullPortrait,
+                    imageloader = imageloader,
+                    onClick = {
+                        navController.navigate(AgentDetails(i.uuid))
+                    }
+                    )
 
             }
 
@@ -161,7 +173,7 @@ fun AgentsList(agentsViewModel: AgentsViewModel , navController: NavController){
 
 
 @Composable
-fun AgentsCard(text: String, image: String, imageloader: ImageLoader){
+fun AgentsCard(text: String, image: String, imageloader: ImageLoader, onClick: ()-> Unit){
 
 
     Column(
@@ -169,6 +181,9 @@ fun AgentsCard(text: String, image: String, imageloader: ImageLoader){
             .padding(15.dp)
             .width(160.dp)
             .border(2.dp, color = BorderColorMera, shape = RectangleShape)
+            .clickable {
+                onClick()
+            }
 
         ,
         horizontalAlignment = Alignment.CenterHorizontally,

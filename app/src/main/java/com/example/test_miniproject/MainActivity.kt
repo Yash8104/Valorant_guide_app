@@ -17,9 +17,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
 
-            val agentsViewModel: AgentsViewModel = hiltViewModel()
 
-            Navigation(agentsViewModel)
+            Navigation()
 
         }
 
