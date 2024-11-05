@@ -11,12 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -26,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,7 +44,6 @@ import coil3.compose.AsyncImage
 import com.example.test_miniproject.R
 import com.example.test_miniproject.model.agent_details.Data
 import com.example.test_miniproject.ui.screen.AgentList
-import com.example.test_miniproject.ui.screen.HomePage
 import com.example.test_miniproject.ui.screen.Loading
 import com.example.test_miniproject.ui.theme.BackgroundMera
 import com.example.test_miniproject.ui.theme.BorderColorMera
@@ -261,14 +257,14 @@ fun AgentScreenContent(values: PaddingValues,agent: Data){
 
             Column(
                 modifier = Modifier
-                    .padding(5.dp)
+                    .padding(vertical = 4.dp)
                     .border(color = BorderColorMera, width = 2.dp, shape = RectangleShape)
             ) {
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp)
+                        .padding(horizontal = 10.dp, vertical = 5.dp)
                     ,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -276,7 +272,8 @@ fun AgentScreenContent(values: PaddingValues,agent: Data){
                     Text(
                         text = i.displayName,
                         fontFamily = fontFamily,
-                        color = BorderColorMera
+                        color = Color.White,
+                        fontSize = 15.sp
                     )
 
                     AsyncImage(
@@ -294,7 +291,7 @@ fun AgentScreenContent(values: PaddingValues,agent: Data){
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp)
+                        .padding(horizontal = 10.dp, vertical = 5.dp)
                     ,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
