@@ -1,6 +1,9 @@
 package com.example.test_miniproject.di
 
 import com.example.test_miniproject.network.AgentApiService
+import com.example.test_miniproject.network.PlayerCardsApiService
+import com.example.test_miniproject.network.RankApiService
+import com.example.test_miniproject.network.WeaponApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +27,24 @@ object NetworkModule {
     @Singleton
     fun provideAgentsApiService(retrofit: Retrofit) : AgentApiService{
         return retrofit.create(AgentApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeaponsApiService(retrofit: Retrofit) : WeaponApiService{
+        return retrofit.create(WeaponApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRankApiService(retrofit: Retrofit) : RankApiService{
+        return retrofit.create(RankApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePlayerCardApiService(retrofit: Retrofit) : PlayerCardsApiService{
+        return retrofit.create(PlayerCardsApiService::class.java)
     }
 
 }

@@ -7,6 +7,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.test_miniproject.ui.screen.agents.AgentScreen
 import com.example.test_miniproject.ui.screen.agents.AgentsListWrapper
+import com.example.test_miniproject.ui.screen.playercards.PlayerCardsScreen
+import com.example.test_miniproject.ui.screen.ranks.RanksScreen
+import com.example.test_miniproject.ui.screen.weapons.WeaponScreen
+import com.example.test_miniproject.ui.screen.weapons.WeaponsScreen
 import com.example.test_miniproject.viewmodel.AgentsViewModel
 import kotlinx.serialization.Serializable
 
@@ -28,6 +32,22 @@ fun Navigation(){
             AgentsListWrapper(navController = navController)
         }
 
+
+        composable<WeaponList> {
+
+            WeaponsScreen(navController = navController)
+
+        }
+
+        composable<RankList> {
+            RanksScreen(navController = navController)
+        }
+
+        composable<PlayerCardList> {
+            PlayerCardsScreen(navController = navController)
+        }
+
+
         composable<AgentDetails> {
 
             navBackStackEntry ->
@@ -36,6 +56,16 @@ fun Navigation(){
             AgentScreen(agentUuid = agentDetails_.uuid, navController = navController)
 
         }
+
+        composable<WeaponDetails> { 
+            navBackStackEntry -> 
+            val weaponDetails_ : WeaponDetails = navBackStackEntry.toRoute()
+            WeaponScreen(weaponUuid = weaponDetails_.uuid, navController = navController)
+        }
+
+
+
+
 
 
 
