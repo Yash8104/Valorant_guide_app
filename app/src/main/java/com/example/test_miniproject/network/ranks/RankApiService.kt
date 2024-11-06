@@ -1,4 +1,4 @@
-package com.example.test_miniproject.network
+package com.example.test_miniproject.network.ranks
 
 import com.example.test_miniproject.model.rank_details.Ranks_data
 import retrofit2.http.GET

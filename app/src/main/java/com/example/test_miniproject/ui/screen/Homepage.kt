@@ -110,7 +110,7 @@ fun HomepageContent(values: PaddingValues, navController: NavController){
         Spacer(modifier = Modifier.fillMaxWidth())
 
         ItemCard(text = "SPRAYS", image = R.drawable.sprays , onClick = {
-            navController.navigate(AgentList)
+            navController.navigate(SprayList)
         })
         Spacer(modifier = Modifier.fillMaxWidth())
 
@@ -119,13 +119,13 @@ fun HomepageContent(values: PaddingValues, navController: NavController){
         })
         Spacer(modifier = Modifier.fillMaxWidth())
 
-        ItemCard(text = "MAPS", image = R.drawable.maps , onClick = {
-            navController.navigate(AgentList)
-        })
-        Spacer(modifier = Modifier.fillMaxWidth())
+//        ItemCard(text = "MAPS", image = R.drawable.maps , onClick = {
+//            navController.navigate(AgentList)
+//        })
+//        Spacer(modifier = Modifier.fillMaxWidth())
 
         ItemCard(text = "GUN \nBUDDIES", image = R.drawable.gunbuddies , onClick = {
-            navController.navigate(AgentList)
+            navController.navigate(BuddiesList)
         })
         Spacer(modifier = Modifier.fillMaxWidth())
 

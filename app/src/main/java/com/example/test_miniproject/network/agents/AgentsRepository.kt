@@ -1,7 +1,6 @@
-package com.example.test_miniproject.network
+package com.example.test_miniproject.network.agents
 
 import android.util.Log
-import com.example.test_miniproject.model.agent_details.Agents_data
 import com.example.test_miniproject.model.agent_details.Data
 import javax.inject.Inject
 import javax.inject.Singleton

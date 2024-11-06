@@ -1,4 +1,4 @@
-package com.example.test_miniproject.network
+package com.example.test_miniproject.network.weapons
 
 import com.example.test_miniproject.model.weapon_details.Weapon_data
 import com.example.test_miniproject.model.weapon_details.Weapons_data

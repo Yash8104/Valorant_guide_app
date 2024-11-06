@@ -1,4 +1,4 @@
-package com.example.test_miniproject.network
+package com.example.test_miniproject.network.playercards
 
 import com.example.test_miniproject.model.playercards.Playercards_data
 import retrofit2.http.GET

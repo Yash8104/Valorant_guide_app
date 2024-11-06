@@ -3,29 +3,29 @@ package com.example.test_miniproject.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.test_miniproject.model.agent_details.Data
-import com.example.test_miniproject.network.agents.AgentsRepository
+import com.example.test_miniproject.model.buddies_detail.Data
+import com.example.test_miniproject.network.buddies.BuddiesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AgentsViewModel @Inject constructor(
-    private val repository: AgentsRepository
-) : ViewModel() {
+class BuddiesViewModel @Inject constructor(
+    private val repository: BuddiesRepository
+) : ViewModel(){
 
-    val agents = mutableStateOf<List<Data>>(emptyList())
+    val buddies = mutableStateOf<List<Data>>(emptyList())
     val isLoading = mutableStateOf(false)
 
     init {
-        fetchAgents()
+        fetchBuddies()
     }
 
-    private fun fetchAgents(){
+    private fun fetchBuddies(){
         viewModelScope.launch {
             isLoading.value = true
             try {
-                agents.value = repository.getAgents()
+                buddies.value = repository.getBuddies()
 
             }catch (e: Exception){
                 e.printStackTrace()

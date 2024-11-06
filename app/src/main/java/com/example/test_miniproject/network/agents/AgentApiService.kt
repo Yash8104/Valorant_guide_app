@@ -1,4 +1,4 @@
-package com.example.test_miniproject.network
+package com.example.test_miniproject.network.agents
 
 import com.example.test_miniproject.model.agent_details.Agent_data
 import com.example.test_miniproject.model.agent_details.Agents_data

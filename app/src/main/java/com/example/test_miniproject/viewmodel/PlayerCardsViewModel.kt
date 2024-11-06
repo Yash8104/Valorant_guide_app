@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.test_miniproject.model.playercards.Data
-import com.example.test_miniproject.network.PlayerCardsRepository
+import com.example.test_miniproject.network.playercards.PlayerCardsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

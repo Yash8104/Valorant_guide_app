@@ -1,6 +1,7 @@
 [versions]
 agp = "8.5.2"
 coilCompose = "3.0.0-rc02"
+coilGif = "3.0.0"
 hiltAndroid = "2.51.1"
 hiltAndroidCompiler = "2.51.1"
 hiltNavigationCompose = "1.2.0"
@@ -21,6 +22,7 @@ uiTextGoogleFonts = "1.7.5"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
+coil-gif = { module = "io.coil-kt.coil3:coil-gif", version.ref = "coilGif" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

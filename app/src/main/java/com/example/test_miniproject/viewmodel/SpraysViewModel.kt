@@ -3,29 +3,29 @@ package com.example.test_miniproject.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.test_miniproject.model.agent_details.Data
-import com.example.test_miniproject.network.agents.AgentsRepository
+import com.example.test_miniproject.model.spray_details.Data
+import com.example.test_miniproject.network.sprays.SprayRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AgentsViewModel @Inject constructor(
-    private val repository: AgentsRepository
-) : ViewModel() {
+class SpraysViewModel @Inject constructor(
+    private val sprayRepository: SprayRepository
+) : ViewModel(){
 
-    val agents = mutableStateOf<List<Data>>(emptyList())
+    val sprays = mutableStateOf<List<Data>>(emptyList())
     val isLoading = mutableStateOf(false)
 
     init {
-        fetchAgents()
+        fetchSprays()
     }
 
-    private fun fetchAgents(){
+    private fun fetchSprays(){
         viewModelScope.launch {
             isLoading.value = true
             try {
-                agents.value = repository.getAgents()
+                sprays.value = sprayRepository.getSprays()
 
             }catch (e: Exception){
                 e.printStackTrace()

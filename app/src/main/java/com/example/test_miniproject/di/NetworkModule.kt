@@ -1,9 +1,11 @@
 package com.example.test_miniproject.di
 
-import com.example.test_miniproject.network.AgentApiService
-import com.example.test_miniproject.network.PlayerCardsApiService
-import com.example.test_miniproject.network.RankApiService
-import com.example.test_miniproject.network.WeaponApiService
+import com.example.test_miniproject.network.agents.AgentApiService
+import com.example.test_miniproject.network.buddies.BuddiesApiService
+import com.example.test_miniproject.network.playercards.PlayerCardsApiService
+import com.example.test_miniproject.network.ranks.RankApiService
+import com.example.test_miniproject.network.sprays.SprayApiService
+import com.example.test_miniproject.network.weapons.WeaponApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,26 +27,39 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAgentsApiService(retrofit: Retrofit) : AgentApiService{
+    fun provideAgentsApiService(retrofit: Retrofit) : AgentApiService {
         return retrofit.create(AgentApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideWeaponsApiService(retrofit: Retrofit) : WeaponApiService{
+    fun provideWeaponsApiService(retrofit: Retrofit) : WeaponApiService {
         return retrofit.create(WeaponApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideRankApiService(retrofit: Retrofit) : RankApiService{
+    fun provideRankApiService(retrofit: Retrofit) : RankApiService {
         return retrofit.create(RankApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun providePlayerCardApiService(retrofit: Retrofit) : PlayerCardsApiService{
+    fun providePlayerCardApiService(retrofit: Retrofit) : PlayerCardsApiService {
         return retrofit.create(PlayerCardsApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideSprayApiServiceApiService(retrofit: Retrofit) : SprayApiService {
+        return retrofit.create(SprayApiService::class.java)
+    }
+    @Provides
+    @Singleton
+    fun provideBuddiesApiServiceApiService(retrofit: Retrofit) : BuddiesApiService {
+        return retrofit.create(BuddiesApiService::class.java)
+    }
+
+
 
 }

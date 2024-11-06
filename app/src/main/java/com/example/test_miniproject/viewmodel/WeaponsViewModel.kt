@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.test_miniproject.model.weapon_details.Data
-import com.example.test_miniproject.network.WeaponRepository
+import com.example.test_miniproject.network.weapons.WeaponRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
