@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,7 +28,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -45,6 +48,7 @@ import com.example.test_miniproject.R
 import com.example.test_miniproject.model.agent_details.Data
 import com.example.test_miniproject.ui.screen.AgentList
 import com.example.test_miniproject.ui.screen.Loading
+import com.example.test_miniproject.ui.screen.ShowError
 import com.example.test_miniproject.ui.theme.BackgroundMera
 import com.example.test_miniproject.ui.theme.BorderColorMera
 import com.example.test_miniproject.ui.theme.fontFamily
@@ -69,7 +73,9 @@ fun AgentScreen(agentUuid: String, navController: NavController){
         modifier = Modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .background(BackgroundMera),
+            .background(BackgroundMera)
+
+        ,
         containerColor = BackgroundMera,
         topBar = {
             CenterAlignedTopAppBar(
@@ -89,8 +95,8 @@ fun AgentScreen(agentUuid: String, navController: NavController){
                 },
                 scrollBehavior = scrollBehavior,
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = BackgroundMera,
-                    scrolledContainerColor = BackgroundMera
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.hsl(211F,0.34F,0.12F,0.4F)
                 )
             )
         }
@@ -101,13 +107,22 @@ fun AgentScreen(agentUuid: String, navController: NavController){
 
         if (!isLoading){
 
-            agent?.let {
-//                logic
-                AgentScreenContent(values,it)
+            if(!viewModel.error.value){
 
-            } ?: run {
-                Text(text = "Something went wrong!!", color = Color.Red, fontFamily = fontFamily, fontSize = 20.sp, modifier = Modifier.padding(values))
+                agent?.let {
+//                logic
+                    AgentScreenContent(values,it)
+
+                }
+
+            }else{
+
+                ShowError(viewModel.error_msg.value)
+
+
             }
+
+
         }
         else{
             Loading()
@@ -123,8 +138,10 @@ fun AgentScreenContent(values: PaddingValues,agent: Data){
 
     Column(
         modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .paint(painterResource(id = R.drawable.red_triangle_background),true,Alignment.TopEnd, contentScale = ContentScale.FillWidth)
             .padding(top = values.calculateTopPadding(), start = 50.dp, end = 50.dp, bottom = 50.dp)
-            .verticalScroll(rememberScrollState()),
+        ,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -257,8 +274,8 @@ fun AgentScreenContent(values: PaddingValues,agent: Data){
 
             Column(
                 modifier = Modifier
-                    .padding(vertical = 4.dp)
-                    .border(color = BorderColorMera, width = 2.dp, shape = RectangleShape)
+                    .padding(vertical = 14.dp)
+                    .border(color = BorderColorMera, width = 2.dp, shape = RoundedCornerShape(6.dp))
             ) {
 
                 Row(

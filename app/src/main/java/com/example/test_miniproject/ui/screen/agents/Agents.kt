@@ -1,5 +1,6 @@
 package com.example.test_miniproject.ui.screen.agents
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -50,6 +52,7 @@ import com.example.test_miniproject.ui.screen.AgentDetails
 import com.example.test_miniproject.ui.screen.HomePage
 import com.example.test_miniproject.ui.screen.HomepageContent
 import com.example.test_miniproject.ui.screen.Loading
+import com.example.test_miniproject.ui.screen.ShowError
 import com.example.test_miniproject.ui.theme.BackgroundMera
 import com.example.test_miniproject.ui.theme.BorderColorMera
 import com.example.test_miniproject.ui.theme.TrackColorMera
@@ -104,7 +107,16 @@ fun AgentsListWrapper(navController: NavController){
             values: PaddingValues ->
 
         if(!agentsViewModel.isLoading.value){
-            AgentsList(values,agentsViewModel = agentsViewModel, navController)
+
+            if (!agentsViewModel.error.value){
+                AgentsList(values,agentsViewModel = agentsViewModel, navController)
+            }else{
+
+//                Error message
+                ShowError(agentsViewModel.error_msg.value)
+
+            }
+
         }else{
             Loading()
         }
@@ -168,7 +180,7 @@ fun AgentsCard(text: String, image: String, onClick: ()-> Unit){
         modifier = Modifier
             .padding(15.dp)
             .width(160.dp)
-            .border(2.dp, color = BorderColorMera, shape = RectangleShape)
+            .border(1.dp, color = BorderColorMera, shape = RoundedCornerShape(10.dp))
             .clickable {
                 onClick()
             }

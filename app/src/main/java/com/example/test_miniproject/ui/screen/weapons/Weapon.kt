@@ -2,7 +2,6 @@ package com.example.test_miniproject.ui.screen.weapons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,12 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,16 +29,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,10 +42,9 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.test_miniproject.R
 import com.example.test_miniproject.model.weapon_details.Data
-import com.example.test_miniproject.ui.screen.AgentList
 import com.example.test_miniproject.ui.screen.Loading
+import com.example.test_miniproject.ui.screen.ShowError
 import com.example.test_miniproject.ui.screen.WeaponList
-import com.example.test_miniproject.ui.screen.agents.AgentScreenContent
 import com.example.test_miniproject.ui.theme.BackgroundMera
 import com.example.test_miniproject.ui.theme.BorderColorMera
 import com.example.test_miniproject.ui.theme.fontFamily
@@ -96,8 +89,8 @@ fun WeaponScreen(weaponUuid: String, navController: NavController){
                 },
                 scrollBehavior = scrollBehavior,
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = BackgroundMera,
-                    scrolledContainerColor = BackgroundMera
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.hsl(211F,0.34F,0.12F,0.4F)
                 )
             )
         }
@@ -108,13 +101,16 @@ fun WeaponScreen(weaponUuid: String, navController: NavController){
 
         if (!isLoading){
 
-            weapon?.let {
+            if(!viewModel.error.value){
+                weapon?.let {
 //                logic
-                WeaponScreenContent(values,it)
-
-            } ?: run {
-                Text(text = "Something went wrong!!", color = Color.Red, fontFamily = fontFamily, fontSize = 20.sp, modifier = Modifier.padding(values))
+                    WeaponScreenContent(values,it)
+                }
+            }else{
+                ShowError(errorMsg = viewModel.error_msg.value)
             }
+
+            
         }
         else{
             Loading()
@@ -130,8 +126,14 @@ fun WeaponScreenContent(values: PaddingValues, weapon: Data){
 
     Column(
         modifier = Modifier
-            .padding(top = values.calculateTopPadding(), start = 50.dp, end = 50.dp, bottom = 50.dp)
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .paint(
+                painterResource(id = R.drawable.red_triangle_background),
+                true,
+                Alignment.TopEnd,
+                contentScale = ContentScale.FillWidth
+            )
+            .padding(top = values.calculateTopPadding(), start = 50.dp, end = 50.dp, bottom = 50.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -385,7 +387,7 @@ fun WeaponScreenContent(values: PaddingValues, weapon: Data){
                         )
 
                         Text(
-                            text = i.bodyDamage.toInt().toString(),
+                            text = i.bodyDamage.toString(),
                             fontFamily = fontFamily,
                             color = Color.White,
                             modifier = Modifier.width(50.dp),
@@ -454,7 +456,7 @@ fun WeaponScreenContent(values: PaddingValues, weapon: Data){
                 Box(
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
-                        .border(1.dp, BorderColorMera, RectangleShape)
+                        .border(1.dp, BorderColorMera, RoundedCornerShape(8.dp))
 
                 ) {
 

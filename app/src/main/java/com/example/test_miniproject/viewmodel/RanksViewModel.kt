@@ -17,6 +17,8 @@ class RanksViewModel @Inject constructor(
 
     val ranks = mutableStateOf<Data?>(null)
     val isLoading = mutableStateOf(false)
+    val error = mutableStateOf(false)
+    val error_msg = mutableStateOf("")
 
     init {
         fetchRanks()
@@ -26,8 +28,20 @@ class RanksViewModel @Inject constructor(
             isLoading.value = true
             try {
                 ranks.value = repository.getRanks()
+
+                if(ranks.value == null){
+                    error.value = true
+                    error_msg.value = repository.getErrorMessage()
+
+                }else{
+                    error.value = false
+                }
+
             }catch (e: Exception){
                 e.printStackTrace()
+                error.value = true
+                error_msg.value = e.message.toString()
+
             }finally {
                 isLoading.value = false
             }

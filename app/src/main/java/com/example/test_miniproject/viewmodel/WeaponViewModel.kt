@@ -16,15 +16,29 @@ class WeaponViewModel @Inject constructor(
 
     val weapon = mutableStateOf<Data?>(null)
     val isLoading = mutableStateOf(false)
+    val error = mutableStateOf(false)
+    val error_msg = mutableStateOf("")
 
     fun fetchWeapon(uuid : String){
         viewModelScope.launch {
             isLoading.value = true
             try {
                 weapon.value = repository.getWeapon(uuid)
+
+                if(weapon.value == null){
+                    error.value = true
+                    error_msg.value = repository.getErrorMessage()
+
+                }else{
+                    error.value = false
+                }
+
             }catch (e : Exception){
                 e.printStackTrace()
                 weapon.value = null
+                error.value = true
+                error_msg.value = e.message.toString()
+
             }finally {
                 isLoading.value = false
             }

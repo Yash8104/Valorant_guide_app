@@ -16,6 +16,9 @@ class SpraysViewModel @Inject constructor(
 
     val sprays = mutableStateOf<List<Data>>(emptyList())
     val isLoading = mutableStateOf(false)
+    val error = mutableStateOf(false)
+    val error_msg = mutableStateOf("")
+
 
     init {
         fetchSprays()
@@ -27,8 +30,19 @@ class SpraysViewModel @Inject constructor(
             try {
                 sprays.value = sprayRepository.getSprays()
 
+                if(sprays.value.isEmpty()){
+                    error.value = true
+                    error_msg.value = sprayRepository.getErrorMessage()
+
+                }else{
+                    error.value = false
+                }
+
             }catch (e: Exception){
                 e.printStackTrace()
+                error.value = true
+                error_msg.value = e.message.toString()
+
             }finally {
                 isLoading.value = false
             }

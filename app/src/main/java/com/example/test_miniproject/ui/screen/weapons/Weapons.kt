@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,6 +41,7 @@ import com.example.test_miniproject.R
 import com.example.test_miniproject.ui.screen.AgentDetails
 import com.example.test_miniproject.ui.screen.HomePage
 import com.example.test_miniproject.ui.screen.Loading
+import com.example.test_miniproject.ui.screen.ShowError
 import com.example.test_miniproject.ui.screen.WeaponDetails
 import com.example.test_miniproject.ui.screen.agents.AgentsCard
 import com.example.test_miniproject.ui.screen.agents.AgentsList
@@ -90,8 +92,13 @@ fun WeaponsScreen(navController: NavController){
         values: PaddingValues ->
 
         if(!weaponsViewModel.isLoading.value){
+            
+            if(!weaponsViewModel.error.value){
+                WeaponsScreenContent(values, weaponsViewModel, navController)
+            }else{
+                ShowError(errorMsg = weaponsViewModel.error_msg.value)
+            }
 
-            WeaponsScreenContent(values, weaponsViewModel, navController)
 
         }else{
             Loading()
@@ -150,7 +157,7 @@ fun WeaponsCard(text: String, image: String, onClick: ()-> Unit){
         modifier = Modifier
             .padding(15.dp)
             .fillMaxWidth()
-            .border(2.dp, color = BorderColorMera, shape = RectangleShape)
+            .border(1.dp, color = BorderColorMera, shape = RoundedCornerShape(15.dp))
             .clickable {
                 onClick()
             }

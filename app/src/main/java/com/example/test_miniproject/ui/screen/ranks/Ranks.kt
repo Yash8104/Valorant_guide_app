@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,6 +39,7 @@ import coil3.compose.AsyncImage
 import com.example.test_miniproject.R
 import com.example.test_miniproject.ui.screen.HomePage
 import com.example.test_miniproject.ui.screen.Loading
+import com.example.test_miniproject.ui.screen.ShowError
 import com.example.test_miniproject.ui.theme.BackgroundMera
 import com.example.test_miniproject.ui.theme.BorderColorMera
 import com.example.test_miniproject.ui.theme.TrackColorMera
@@ -86,8 +88,13 @@ fun RanksScreen(navController: NavController){
             values: PaddingValues ->
 
         if(!ranksViewModel.isLoading.value){
+            
+            if (!ranksViewModel.error.value){
+                RanksScreenContent(values,ranksViewModel)
+            }else{
+                ShowError(errorMsg = ranksViewModel.error_msg.value)
+            }
 
-            RanksScreenContent(values,ranksViewModel)
         }else{
             Loading()
         }
@@ -126,11 +133,11 @@ fun RanksScreenContent(values: PaddingValues, ranksViewModel: RanksViewModel){
                     Box(
                         modifier = Modifier
                             .padding(10.dp)
-                            .height(160.dp)
+                            .height(150.dp)
                             .width(110.dp)
                             .border(
                                 1.dp, BorderColorMera,
-                                RectangleShape
+                                RoundedCornerShape(12.dp)
                             )
                     ){
 

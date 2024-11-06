@@ -17,6 +17,8 @@ class PlayerCardsViewModel @Inject constructor(
 
     val cards = mutableStateOf<List<Data>>(emptyList())
     val isLoading = mutableStateOf(false)
+    val error = mutableStateOf(false)
+    val error_msg = mutableStateOf("")
 
     init {
         fetchCards()
@@ -28,8 +30,18 @@ class PlayerCardsViewModel @Inject constructor(
             try {
                 cards.value = repository.getPlayerCards()
 
+                if(cards.value.isEmpty()){
+                    error.value = true
+                    error_msg.value = repository.getErrorMessage()
+
+                }else{
+                    error.value = false
+                }
+
             }catch (e: Exception){
                 e.printStackTrace()
+                error.value = true
+                error_msg.value = e.message.toString()
             }finally {
                 isLoading.value = false
             }

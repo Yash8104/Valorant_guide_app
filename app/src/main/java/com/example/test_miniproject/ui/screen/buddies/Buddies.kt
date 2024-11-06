@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -38,6 +39,7 @@ import coil3.compose.AsyncImage
 import com.example.test_miniproject.R
 import com.example.test_miniproject.ui.screen.HomePage
 import com.example.test_miniproject.ui.screen.Loading
+import com.example.test_miniproject.ui.screen.ShowError
 import com.example.test_miniproject.ui.theme.BackgroundMera
 import com.example.test_miniproject.ui.theme.BorderColorMera
 import com.example.test_miniproject.ui.theme.fontFamily
@@ -86,7 +88,17 @@ fun BuddiesScreen(navController: NavController){
             values: PaddingValues ->
 
         if(!buddiesViewModel.isLoading.value){
-            BuddiesScreenContent(values,buddiesViewModel, navController)
+            
+            if(!buddiesViewModel.error.value){
+            
+                BuddiesScreenContent(values,buddiesViewModel, navController)
+                
+            }else{
+                
+                ShowError(errorMsg = buddiesViewModel.error_msg.value)
+                
+            }
+            
         }else{
             Loading()
         }
@@ -130,7 +142,11 @@ fun BuddiesScreenContent(values: PaddingValues, buddiesViewModel: BuddiesViewMod
                                     .padding(top = 10.dp, start = 10.dp, end = 10.dp)
                                     .width(170.dp)
                                     .height(200.dp)
-                                    .border(1.dp, BorderColorMera, RectangleShape),
+                                    .border(
+                                        1.dp,
+                                        BorderColorMera,
+                                        RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+                                    ),
 //                            contentScale = ContentScale.FillWidth,
                                 placeholder = painterResource(id = R.drawable.spray_placeholder),
                                 error = painterResource(id = R.drawable.spray_error)
@@ -143,7 +159,10 @@ fun BuddiesScreenContent(values: PaddingValues, buddiesViewModel: BuddiesViewMod
                                 color = Color.White,
                                 modifier = Modifier
                                     .padding(horizontal = 10.dp)
-                                    .background(BorderColorMera)
+                                    .background(
+                                        BorderColorMera,
+                                        RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp)
+                                    )
                                     .width(170.dp)
                                 ,
                                 textAlign = TextAlign.Center,

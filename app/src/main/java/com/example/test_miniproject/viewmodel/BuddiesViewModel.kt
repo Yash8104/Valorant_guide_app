@@ -16,6 +16,8 @@ class BuddiesViewModel @Inject constructor(
 
     val buddies = mutableStateOf<List<Data>>(emptyList())
     val isLoading = mutableStateOf(false)
+    val error = mutableStateOf(false)
+    val error_msg = mutableStateOf("")
 
     init {
         fetchBuddies()
@@ -27,8 +29,19 @@ class BuddiesViewModel @Inject constructor(
             try {
                 buddies.value = repository.getBuddies()
 
+                if(buddies.value.isEmpty()){
+                    error.value = true
+                    error_msg.value = repository.getErrorMessage()
+
+                }else{
+                    error.value = false
+                }
+
             }catch (e: Exception){
                 e.printStackTrace()
+                error.value = true
+                error_msg.value = e.message.toString()
+
             }finally {
                 isLoading.value = false
             }

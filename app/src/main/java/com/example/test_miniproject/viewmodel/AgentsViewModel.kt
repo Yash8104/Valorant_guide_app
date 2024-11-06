@@ -16,6 +16,8 @@ class AgentsViewModel @Inject constructor(
 
     val agents = mutableStateOf<List<Data>>(emptyList())
     val isLoading = mutableStateOf(false)
+    val error = mutableStateOf(false)
+    val error_msg = mutableStateOf("")
 
     init {
         fetchAgents()
@@ -27,8 +29,19 @@ class AgentsViewModel @Inject constructor(
             try {
                 agents.value = repository.getAgents()
 
+                if(agents.value.isEmpty()){
+                    error.value = true
+                    error_msg.value = repository.getErrorMessage()
+
+                }else{
+                    error.value = false
+                }
+
             }catch (e: Exception){
                 e.printStackTrace()
+                error.value = true
+                error_msg.value = e.message.toString()
+
             }finally {
                 isLoading.value = false
             }

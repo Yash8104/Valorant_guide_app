@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -20,6 +21,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -32,6 +34,7 @@ import coil3.compose.AsyncImage
 import com.example.test_miniproject.R
 import com.example.test_miniproject.ui.screen.HomePage
 import com.example.test_miniproject.ui.screen.Loading
+import com.example.test_miniproject.ui.screen.ShowError
 import com.example.test_miniproject.ui.theme.BackgroundMera
 import com.example.test_miniproject.ui.theme.BorderColorMera
 import com.example.test_miniproject.ui.theme.fontFamily
@@ -80,7 +83,13 @@ fun SpraysScreen(navController: NavController){
             values: PaddingValues ->
 
         if(!spraysViewModel.isLoading.value){
-            SpraysScreenContent(values,spraysViewModel , navController)
+            
+            if(!spraysViewModel.error.value){
+                SpraysScreenContent(values,spraysViewModel , navController)
+            }else{
+                ShowError(errorMsg = spraysViewModel.error_msg.value)
+            }
+            
         }else{
             Loading()
         }
@@ -120,7 +129,9 @@ fun SpraysScreenContent(values: PaddingValues, spraysViewModel: SpraysViewModel,
                                 modifier = Modifier
                                     .padding(10.dp)
                                     .width(170.dp)
-                                    .border(1.dp, BorderColorMera, RectangleShape),
+                                    .border(1.dp, BorderColorMera, RoundedCornerShape(8.dp))
+                                    .clip(RoundedCornerShape(8.dp))
+                                ,
                                 contentScale = ContentScale.FillWidth,
                                 placeholder = painterResource(id = R.drawable.spray_placeholder),
                                 error = painterResource(id = R.drawable.spray_error)
@@ -132,7 +143,8 @@ fun SpraysScreenContent(values: PaddingValues, spraysViewModel: SpraysViewModel,
                                 modifier = Modifier
                                     .padding(10.dp)
                                     .width(170.dp)
-                                    .border(1.dp, BorderColorMera, RectangleShape),
+                                    .border(1.dp, BorderColorMera, RoundedCornerShape(8.dp))
+                                    .clip(RoundedCornerShape(8.dp)),
                                 contentScale = ContentScale.FillWidth,
                                 placeholder = painterResource(id = R.drawable.spray_placeholder),
                                 error = painterResource(id = R.drawable.spray_error)

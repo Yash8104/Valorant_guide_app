@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,6 +27,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -39,6 +41,7 @@ import com.example.test_miniproject.R
 import com.example.test_miniproject.ui.screen.AgentDetails
 import com.example.test_miniproject.ui.screen.HomePage
 import com.example.test_miniproject.ui.screen.Loading
+import com.example.test_miniproject.ui.screen.ShowError
 import com.example.test_miniproject.ui.screen.agents.AgentsCard
 import com.example.test_miniproject.ui.theme.BackgroundMera
 import com.example.test_miniproject.ui.theme.BorderColorMera
@@ -87,7 +90,13 @@ fun PlayerCardsScreen(navController: NavController){
             values: PaddingValues ->
 
         if(!playerCardsViewModel.isLoading.value){
-            PlayerCardsScreenContent(values,playerCardsViewModel , navController)
+            
+            if(!playerCardsViewModel.error.value){
+                PlayerCardsScreenContent(values,playerCardsViewModel , navController)
+            }else{
+                ShowError(errorMsg = playerCardsViewModel.error_msg.value)
+            }
+            
         }else{
             Loading()
         }
@@ -126,7 +135,9 @@ fun PlayerCardsScreenContent(values: PaddingValues, playerCardsViewModel: Player
                         modifier = Modifier
                             .padding(10.dp)
                             .width(170.dp)
-                            .border(1.dp, BorderColorMera, RectangleShape),
+                            .border(2.dp, BorderColorMera, RoundedCornerShape(10.dp))
+                            .clip(RoundedCornerShape(10.dp))
+                        ,
                         contentScale = ContentScale.FillWidth,
                         placeholder = painterResource(id = R.drawable.placeholder_image_color)
                     )
