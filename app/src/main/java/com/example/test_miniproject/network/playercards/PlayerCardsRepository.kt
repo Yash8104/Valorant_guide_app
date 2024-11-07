@@ -1,6 +1,10 @@
 package com.example.test_miniproject.network.playercards
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import com.example.test_miniproject.model.playercards.Data
 import javax.inject.Inject
@@ -33,6 +37,34 @@ class PlayerCardsRepository @Inject constructor(
             error_message.value = e.message.toString()
             emptyList()
         }
+    }
+
+    suspend fun downloadImage(imageUrl: String) : Bitmap?{
+
+        try {
+            val response = apiService.downloadPlayerCard(imageUrl)
+            if(response.isSuccessful){
+                response.body()?.let {
+                        responseBody ->
+                    val inputStream = responseBody.byteStream()
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+
+                    Log.e("Download Image", "It might be working guys!!!")
+                    Log.e("bitmap details",bitmap.toString())
+                    return bitmap
+                }
+                return null
+
+            }else{
+                Log.e("Download","Failed to download image : ${response.message()}")
+                return null
+            }
+        }catch (e : Exception){
+            e.printStackTrace()
+            return null
+        }
+
+
     }
 
 }
