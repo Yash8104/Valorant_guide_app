@@ -27,14 +27,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -122,6 +129,21 @@ fun WeaponScreen(weaponUuid: String, navController: NavController){
 
 @Composable
 fun WeaponScreenContent(values: PaddingValues, weapon: Data){
+
+    val density = LocalDensity.current
+    var Range_width by remember {
+        mutableStateOf<Dp>(0.dp)
+    }
+    var Body_width by remember {
+        mutableStateOf<Dp>(0.dp)
+    }
+    var Head_width by remember {
+        mutableStateOf<Dp>(0.dp)
+    }
+    var Leg_width by remember {
+        mutableStateOf<Dp>(0.dp)
+    }
+
 
 
     Column(
@@ -325,7 +347,11 @@ fun WeaponScreenContent(values: PaddingValues, weapon: Data){
                     text = "RANGE",
                     fontFamily = fontFamily,
                     color = BorderColorMera,
-                    modifier = Modifier.width(60.dp),
+                    modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
+                        with(density){
+                            Range_width = layoutCoordinates.size.width.toDp()
+                        }
+                    },
                     textAlign = TextAlign.Center
 
                 )
@@ -334,7 +360,11 @@ fun WeaponScreenContent(values: PaddingValues, weapon: Data){
                     text = "BODY",
                     fontFamily = fontFamily,
                     color = BorderColorMera,
-                    modifier = Modifier.width(50.dp),
+                    modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
+                        with(density){
+                            Body_width = layoutCoordinates.size.width.toDp()
+                        }
+                    },
                     textAlign = TextAlign.Center
 
 
@@ -344,8 +374,11 @@ fun WeaponScreenContent(values: PaddingValues, weapon: Data){
                     text = "HEAD",
                     fontFamily = fontFamily,
                     color = BorderColorMera,
-                    modifier = Modifier.width(50.dp),
-                    textAlign = TextAlign.Center
+                    modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
+                        with(density){
+                            Head_width = layoutCoordinates.size.width.toDp()
+                        }
+                    },textAlign = TextAlign.Center
 
 
                 )
@@ -354,8 +387,11 @@ fun WeaponScreenContent(values: PaddingValues, weapon: Data){
                     text = "LEG",
                     fontFamily = fontFamily,
                     color = BorderColorMera,
-                    modifier = Modifier.width(50.dp),
-                    textAlign = TextAlign.Center
+                    modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
+                        with(density){
+                            Leg_width = layoutCoordinates.size.width.toDp()
+                        }
+                    },textAlign = TextAlign.Center
 
 
                 )
@@ -381,7 +417,7 @@ fun WeaponScreenContent(values: PaddingValues, weapon: Data){
                             text = text,
                             fontFamily = fontFamily,
                             color = Color.White,
-                            modifier = Modifier.width(60.dp),
+                            modifier = Modifier.width(Range_width),
                             textAlign = TextAlign.Center
 
                         )
@@ -390,7 +426,7 @@ fun WeaponScreenContent(values: PaddingValues, weapon: Data){
                             text = i.bodyDamage.toString(),
                             fontFamily = fontFamily,
                             color = Color.White,
-                            modifier = Modifier.width(50.dp),
+                            modifier = Modifier.width(Body_width),
                             textAlign = TextAlign.Center
 
 
@@ -400,7 +436,7 @@ fun WeaponScreenContent(values: PaddingValues, weapon: Data){
                             text = i.headDamage.toInt().toString(),
                             fontFamily = fontFamily,
                             color = Color.White,
-                            modifier = Modifier.width(50.dp),
+                            modifier = Modifier.width(Head_width),
                             textAlign = TextAlign.Center
 
 
@@ -410,7 +446,7 @@ fun WeaponScreenContent(values: PaddingValues, weapon: Data){
                             text = i.legDamage.toInt().toString(),
                             fontFamily = fontFamily,
                             color = Color.White,
-                            modifier = Modifier.width(50.dp),
+                            modifier = Modifier.width(Leg_width),
                             textAlign = TextAlign.Center
 
                         )

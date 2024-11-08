@@ -2,4 +2,13 @@
 <resources>
 
     <style name="Theme.Test_miniproject" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Test_miniproject.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/background_color</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.Test_miniproject</item>
+    </style>
+
+
+
 </resources>

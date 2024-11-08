@@ -24,7 +24,7 @@ class WeaponRepository @Inject constructor(
             val response = weaponApiService.getWeapons()
             Log.e("response",response.status.toString())
             if (response.status == 200){
-                response.data
+                response.data.dropLast(1)
             }else{
                 error_message.value = "Response code is not 200."
                 emptyList()
